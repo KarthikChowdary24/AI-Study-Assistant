@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Study Assistant</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>AI Study Assistant</h1>
+        <p>Powered by Gemini AI</p>
+    </div>
+
+    <div id="chat-box" class="chat-box">
+        <div class="bot-message">
+            👋 Hello Karthik! Ask me anything about AI, programming, academics, or general knowledge.
+        </div>
+    </div>
+
+    <div class="input-section">
+        <input
+            type="text"
+            id="user-input"
+            placeholder="Ask anything..."
+        >
+
+        <button onclick="sendMessage()">
+            Send
+        </button>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
