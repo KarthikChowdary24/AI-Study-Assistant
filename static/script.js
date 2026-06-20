@@ -186,3 +186,58 @@ async function loadChat(chatId) {
 
     }
 }
+async function uploadPDF() {
+
+    const input =
+        document.getElementById("pdf-upload");
+
+    input.click();
+
+    input.onchange = async () => {
+
+        const file = input.files[0];
+
+        if (!file) return;
+
+        const formData = new FormData();
+
+        formData.append(
+            "pdf",
+            file
+        );
+
+        try {
+
+            const response =
+                await fetch(
+                    "/upload-pdf",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+            const data =
+                await response.json();
+
+            const chatBox =
+                document.getElementById(
+                    "chat-box"
+                );
+
+            chatBox.innerHTML += `
+                <div class="bot-message">
+                    📄 ${file.name}
+                    uploaded successfully.
+                </div>
+            `;
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    };
+
+}

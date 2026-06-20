@@ -1,3 +1,4 @@
+from pypdf import PdfReader
 from flask import Flask, render_template, request, jsonify
 from groq import Groq
 from dotenv import load_dotenv
@@ -10,6 +11,10 @@ load_dotenv()
 
 # Flask app
 app = Flask(__name__)
+UPLOAD_FOLDER = "uploads"
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+pdf_text = ""
 
 # Database configuration
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///chats.db"
@@ -44,9 +49,9 @@ def chat():
         response = client.chat.completions.create(
             model="llama-3.3-70b-versatile",
             messages=[
-    {
-        "role": "system",
-        "content": """
+                {
+                    "role": "system",
+                    "content": """
     You are an AI Study Assistant for engineering students.
 
     Rules:
@@ -60,8 +65,18 @@ def chat():
         - Create study plans.
         - Include examples wherever possible.
         - Help students prepare for semester examinations.
-        """
-    },
+                    """
+                },
+                {
+                    "role": "system",
+                    "content": f"""
+    You are an AI Study Assistant.
+
+    Use the following PDF content if relevant:
+
+    {pdf_text[:12000]}
+                    """
+                },
                 {
                     "role": "user",
                     "content": user_message
@@ -125,6 +140,43 @@ def get_chat(chat_id):
         "user": chat.user_message,
         "bot": chat.bot_response
     })
+
+@app.route("/upload-pdf", methods=["POST"])
+def upload_pdf():
+
+    global pdf_text
+
+    try:
+
+        file = request.files["pdf"]
+
+        filepath = os.path.join(
+            app.config["UPLOAD_FOLDER"],
+            file.filename
+        )
+
+        file.save(filepath)
+
+        reader = PdfReader(filepath)
+
+        pdf_text = ""
+
+        for page in reader.pages:
+
+            text = page.extract_text()
+
+            if text:
+                pdf_text += text + "\n"
+
+        return jsonify({
+            "message": "PDF uploaded successfully"
+        })
+
+    except Exception as e:
+
+        return jsonify({
+            "message": str(e)
+        }), 500
 
 # Run application
 if __name__ == "__main__":
