@@ -1,25 +1,81 @@
-# AI Chatbot
+# AI Study Assistant
 
-A simple AI chatbot built using Flask, Python, HTML, CSS and JavaScript.
+An AI-powered Study Assistant built using Flask, Groq LLM, SQLite, HTML, CSS, and JavaScript.
 
 ## Features
 
-- Interactive chatbot
-- Flask backend
-- Responsive UI
-- Rule-based responses
+* AI Chat Assistant
+* Chat History Storage
+* SQLite Database
+* New Chat Functionality
+* Notes Generator
+* MCQ Generator
+* Important Questions Generator
+* Study Planner
+* Modern Dark UI
+* Responsive Layout
 
-## Technologies Used
+## Tech Stack
 
-- Python
-- Flask
-- HTML
-- CSS
-- JavaScript
+### Backend
 
-## How to Run
+* Python
+* Flask
+* Groq API
+* SQLite
 
-1. Install requirements
+### Frontend
+
+* HTML
+* CSS
+* JavaScript
+
+## Installation
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+```
+
+Create virtual environment:
+
+```bash
+python -m venv .venv
+```
+
+Activate environment:
+
+```bash
+.venv\Scripts\activate
+```
+
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
+```
+
+Run:
+
+```bash
+python app.py
+```
+
+Open:
+
+```text
+http://127.0.0.1:5000
+```
+
+## Future Enhancements
+
+* PDF Upload & Q&A
+* Export Notes as PDF
+* User Authentication
+* Cloud Database
+* Multi-Chat Sessions
+
+## Author
+
+Karthik Chowdary Addala

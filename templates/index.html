@@ -9,29 +9,78 @@
 </head>
 <body>
 
-<div class="container">
+<div class="app-container">
 
-    <div class="header">
-        <h1>AI Study Assistant</h1>
-        <p>Powered by Gemini AI</p>
-    </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
 
-    <div id="chat-box" class="chat-box">
-        <div class="bot-message">
-            👋 Hello Karthik! Ask me anything about AI, programming, academics, or general knowledge.
-        </div>
-    </div>
+        <h2>📚 AI Study Assistant</h2>
 
-    <div class="input-section">
-        <input
-            type="text"
-            id="user-input"
-            placeholder="Ask anything..."
-        >
-
-        <button onclick="sendMessage()">
-            Send
+        <button class="new-chat-btn">
+            + New Chat
         </button>
+
+        <div class="history-title">
+            Chat History
+        </div>
+
+        <div id="history-list" class="history-list"></div>
+
+    </div>
+
+    <!-- Main Chat Area -->
+    <div class="main-chat">
+        
+        <div class="header">
+            <h1>Smart Learning Workspace</h1>
+            <p>Powered by Groq + Llama 3.3</p>
+        </div>
+
+        <!-- Study Assistant Buttons -->
+        <div class="quick-actions">
+
+            <button onclick="generateNotes()">
+                📖 Notes
+            </button>
+
+            <button onclick="generateMCQs()">
+                📝 MCQs
+            </button>
+
+            <button onclick="generateQuestions()">
+                🎯 Questions
+            </button>
+
+            <button onclick="studyPlan()">
+                📅 Study Plan
+            </button>
+
+        </div>
+
+        <!-- Chat Area -->
+        <div id="chat-box" class="chat-box">
+
+            <div class="bot-message">
+                👋 Hello Karthik! Ask me anything about AI, programming, academics, or general knowledge.
+            </div>
+
+        </div>
+
+        <!-- Input -->
+        <div class="input-section">
+
+            <input
+                type="text"
+                id="user-input"
+                placeholder="Ask anything..."
+            >
+
+            <button onclick="sendMessage()">
+                Send
+            </button>
+
+        </div>
+
     </div>
 
 </div>

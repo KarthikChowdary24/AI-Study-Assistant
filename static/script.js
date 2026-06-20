@@ -16,10 +16,9 @@ async function sendMessage() {
 
     input.value = "";
 
-    // Auto Scroll
     chatBox.scrollTop = chatBox.scrollHeight;
 
-    // Thinking Animation
+    // Thinking
     chatBox.innerHTML += `
         <div class="bot-message" id="typing">
             Thinking...
@@ -42,10 +41,8 @@ async function sendMessage() {
 
         const data = await response.json();
 
-        // Remove Thinking Message
         document.getElementById("typing").remove();
 
-        // Bot Response
         chatBox.innerHTML += `
             <div class="bot-message">
                 ${data.response}
@@ -53,6 +50,9 @@ async function sendMessage() {
         `;
 
         chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Refresh sidebar history
+        loadHistory();
 
     } catch (error) {
 
@@ -68,7 +68,7 @@ async function sendMessage() {
     }
 }
 
-// Send Message on Enter Key
+// Enter Key Support
 document.getElementById("user-input")
 .addEventListener("keypress", function(event) {
 
@@ -77,3 +77,112 @@ document.getElementById("user-input")
     }
 
 });
+
+// Load Chat History
+async function loadHistory() {
+
+    try {
+
+        const response = await fetch("/history");
+
+        const chats = await response.json();
+
+        const historyList =
+            document.getElementById("history-list");
+
+        historyList.innerHTML = "";
+
+        chats.forEach(chat => {
+
+            let text = chat.user;
+
+            if (text.length > 25) {
+                text = text.substring(0, 25) + "...";
+            }
+
+           historyList.innerHTML += `
+    <div
+        class="history-item"
+        onclick="loadChat(${chat.id})"
+    >
+        ${text}
+    </div>
+`;
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "History Load Error:",
+            error
+        );
+
+    }
+}
+
+// New Chat Button
+document
+.querySelector(".new-chat-btn")
+.addEventListener("click", () => {
+
+    document.getElementById("chat-box").innerHTML = `
+        <div class="bot-message">
+            👋 New Chat Started. Ask me anything!
+        </div>
+    `;
+
+});
+
+// Load history on page startup
+window.onload = () => {
+    loadHistory();
+};
+function generateNotes() {
+    document.getElementById("user-input").value =
+    "Generate detailed engineering exam notes on ";
+}
+
+function generateMCQs() {
+    document.getElementById("user-input").value =
+    "Generate 20 MCQs with answers on ";
+}
+
+function generateQuestions() {
+    document.getElementById("user-input").value =
+    "Generate important 8-mark questions on ";
+}
+
+function studyPlan() {
+    document.getElementById("user-input").value =
+    "Create a study plan for ";
+}
+async function loadChat(chatId) {
+
+    try {
+
+        const response =
+            await fetch(`/chat/${chatId}`);
+
+        const data =
+            await response.json();
+
+        const chatBox =
+            document.getElementById("chat-box");
+
+        chatBox.innerHTML = `
+            <div class="user-message">
+                ${data.user}
+            </div>
+
+            <div class="bot-message">
+                ${data.bot}
+            </div>
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
+}
